@@ -6,13 +6,14 @@ plugins {
 
 repositories {
     mavenCentral()
+    gradlePluginPortal()
 }
 
 dependencies {
     implementation("org.scala-lang:scala-library:2.13.8")
-    implementation("io.gatling.highcharts:gatling-charts-highcharts:3.9.5")
-    implementation("io.gatling:gatling-test-framework:3.9.5")
-    testImplementation("junit:junit:4.13.2")
+    implementation("io.gatling.highcharts:gatling-charts-highcharts:3.3.1")
+    implementation("io.gatling:gatling-app:3.3.1")
+    implementation("io.gatling:gatling-recorder:3.3.1")
 }
 
 sourceSets {
