@@ -1,8 +1,16 @@
 plugins {
-    id("java")
-    id("scala")
-    id("io.gatling.gradle") version "3.9.5" // Ensure the version matches the latest compatible version
+    java
+    scala
+    id("io.gatling.gradle") version "3.9.2"
 }
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+}
+
+val gatlingVersion = "3.9.2"
+val scalaVersion = "2.13.12"
+
 
 repositories {
     mavenCentral()
@@ -10,10 +18,10 @@ repositories {
 }
 
 dependencies {
-    implementation("org.scala-lang:scala-library:2.13.8")
-    implementation("io.gatling.highcharts:gatling-charts-highcharts:3.3.1")
-    implementation("io.gatling:gatling-app:3.3.1")
-    implementation("io.gatling:gatling-recorder:3.3.1")
+    implementation("org.scala-lang:scala-library:$scalaVersion")
+    implementation("io.gatling.highcharts:gatling-charts-highcharts:$gatlingVersion")
+    implementation("io.gatling:gatling-app:$gatlingVersion")
+    implementation("io.gatling:gatling-recorder:$gatlingVersion")
 }
 
 sourceSets {
@@ -43,7 +51,7 @@ tasks.register<JavaExec>("perfTest") {
     description = "Run Gatling performance tests"
     mainClass.set("io.gatling.app.Gatling")
     classpath = sourceSets["test"].runtimeClasspath
-    args = listOf("-s", "your.gatling.package.YourSimulationClass")
+    args = listOf("-s", "com.gatling.simulation")
 
     jvmArgs = listOf("-Xms512M", "-Xmx2G")
 }

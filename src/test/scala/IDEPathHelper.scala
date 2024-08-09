@@ -1,19 +1,15 @@
-import java.nio.file.Path
-
-import io.gatling.commons.util.PathHelper._
+import java.nio.file.{Path, Paths}
+import java.util.Objects.requireNonNull
 
 object IDEPathHelper {
 
-  val gatlingConfUrl: Path = getClass.getClassLoader.getResource("gatling.conf")
-  val projectRootDir = gatlingConfUrl.ancestor(3)
+  private val projectRootDir = Paths.get(requireNonNull(getClass.getResource("gatling.conf"), "Couldn't locate gatling.conf").toURI).getParent.getParent.getParent.getParent
+  private val gradleBuildDirectory = projectRootDir.resolve("build")
+  private val gradleSrcDirectory = projectRootDir.resolve("src").resolve("test")
 
-  val mavenSourcesDirectory = projectRootDir / "src" / "test" / "scala"
-  val mavenResourcesDirectory = projectRootDir / "src" / "test" / "resources"
-  val mavenTargetDirectory = projectRootDir / "target"
-  val mavenBinariesDirectory = mavenTargetDirectory / "test-classes"
-
-  val resourcesDirectory = mavenResourcesDirectory
-  val recorderSimulationsDirectory = mavenSourcesDirectory
-  val resultsDirectory = mavenTargetDirectory / "gatling"
-  val recorderConfigFile = mavenResourcesDirectory / "recorder.conf"
+  val gradleSourcesDirectory: Path = gradleSrcDirectory.resolve("scala")
+  val gradleResourcesDirectory: Path = gradleSrcDirectory.resolve("resources")
+  val gradleBinariesDirectory: Path = gradleBuildDirectory.resolve("classes").resolve("scala").resolve("test")
+  val resultsDirectory: Path = gradleBuildDirectory.resolve("reports").resolve("test")
+  val recorderConfigFile: Path = gradleResourcesDirectory.resolve("recorder.conf")
 }
