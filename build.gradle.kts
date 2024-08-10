@@ -51,7 +51,7 @@ tasks.register<JavaExec>("perfTest") {
     description = "Run Gatling performance tests"
     mainClass.set("io.gatling.app.Gatling")
     classpath = sourceSets["test"].runtimeClasspath
-    args = listOf("-s", "com.gatling.simulation")
+    args = listOf("-s", "com.gatling.simulation.Openbrewerydb") // Write the name of the Scala class which you want to execute
 
     jvmArgs = listOf("-Xms512M", "-Xmx2G")
 }
