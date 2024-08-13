@@ -25,20 +25,9 @@ dependencies {
 }
 
 sourceSets {
-    main {
-        java {
-            setSrcDirs(listOf("src/main/java"))
-        }
-        resources {
-            setSrcDirs(listOf("src/main/resources"))
-        }
-    }
     test {
         scala {
             setSrcDirs(listOf("src/test/scala"))
-        }
-        java {
-            setSrcDirs(listOf("src/test/java")) // Include this if you have Java test sources
         }
         resources {
             setSrcDirs(listOf("src/test/resources"))
