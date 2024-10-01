@@ -11,7 +11,7 @@ class BasicGetBusDetailsCheck extends Simulation{
   val appKey="a33c1f63da644e3ce7ba565599809d0f"
   val dateofDepart="20190426"
 
-  val csvfeeder_bus= csv("data/busdetails.csv").circular
+  val csvfeeder_bus= csv("data/BusDetails.csv").circular
 
   val scn = scenario("GetBusDetails").feed(csvfeeder_bus)
     .exec(http("getbusrequest").get("/api/bus/search/?app_id="+ appId+"&app_key="+ appKey+"&format=json&source=${source}&destination=${destination}&dateofdeparture="+ dateofDepart)
