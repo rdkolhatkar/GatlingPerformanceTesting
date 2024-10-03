@@ -21,5 +21,4 @@ class BasicGetBusDetailsMyString extends Simulation {
       session
     })
   setUp(scn.inject(atOnceUsers(1))).protocols(httpConf)
-
 }
