@@ -1,0 +1,3 @@
+./gradlew pefTest
+./gradlew gatlingRun
+./gradlew gatlingRun -Pgatling.simulationClass=simulations.ScalaSimulation
