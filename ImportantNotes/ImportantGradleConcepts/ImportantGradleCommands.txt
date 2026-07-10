@@ -1,0 +1,31 @@
+./gradlew --refresh-dependencies clean build
+-> This command forces Gradle to download the latest versions of your project's dependencies, clears out all previously compiled files and build artifacts, and then runs a fresh compile and test cycle from scratch.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+./gradlew dependencyInsight --dependency <target-dependency-name>
+-> Traces a specific dependency across the entire project to show exactly which parent dependencies are pulling it in.
+Example: ./gradlew dependencyInsight --dependency netty-codec
+-> The command ./gradlew dependencyInsight --dependency netty-codec is used to find a dependency across your default configuration (which is usually compileClasspath or runtimeClasspath).
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+./gradlew dependencyInsight --dependency <target-dependency-name> --configuration <target-configuration-name>
+-> Traces a specific dependency restricted only to a specific build configuration (like gatlingCompileClasspath), narrowing down the search and speeding up execution.
+Example: ./gradlew dependencyInsight --dependency netty-codec --configuration gatlingCompileClasspath
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+./gradlew dependencies
+-> Generates a complete, comprehensive tree of all direct and transitive dependencies for every configuration in the project.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+./gradlew dependencyInsight --dependency <target-dependency-name> --all
+-> This command searches for a specific dependency across every single build configuration in the project simultaneously, allowing you to trace its origin even if you don't know which configuration bucket it belongs to.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
