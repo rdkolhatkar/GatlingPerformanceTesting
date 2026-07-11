@@ -13,3 +13,4 @@ Download and Run Gatling Standalone
 12) And run the command as : "./mvnw gatling:recorder" it will launch the gatling recorder.
 13) Starting with Gatling 3.11, Gatling no longer ships the old bin/recorder.bat. The standalone bundle is now a Maven wrapper project
 14) If you are doing the above process from Windows Command Prompt (cmd) then to start the recorder run this command: "mvnw.cmd gatling:recorder"
+15) Now after this it will open the Gatling Recorder Configuration Window
