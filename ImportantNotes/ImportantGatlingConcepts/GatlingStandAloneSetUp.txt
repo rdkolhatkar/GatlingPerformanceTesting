@@ -1,0 +1,15 @@
+Download and Run Gatling Standalone
+1) Navigate to the official gating website "https://gatling.io/"
+2) You can directly select the Dropdown As JAVA under the "download-gatling-community-edition" web page
+3) Otherwise you can search for this option Or find alternative installation options in the documentation.
+4) This option will take you to the official gatling documentation page: "https://docs.gatling.io/?utm_source=website"
+5) On the official Gatling documentation page search for "Getting started" then click on "Install Gatling for Java"
+6) It will open the Installation Guide: "https://docs.gatling.io/tutorials/test-as-code/java-jvm/installation-guide/"
+7) Then search for the "Use the standalone bundle" and click on the Download Gatling Bundle button
+8) It will download the "gatling-charts-highcharts-bundle-3.15.1-bundle.zip" file
+9) After download is completed, open the git bash and navigate to the folder where you have downloaded the zip file. Example: cd /d/Gatling/GatlingStandAlone
+10) Then run the command to extract the Zip file. Example:  unzip gatling-charts-highcharts-bundle-3.15.1-bundle.zip
+11) Then go inside the extracted zip folder. Example: cd gatling-charts-highcharts-bundle-3.15.1
+12) And run the command as : "./mvnw gatling:recorder" it will launch the gatling recorder.
+13) Starting with Gatling 3.11, Gatling no longer ships the old bin/recorder.bat. The standalone bundle is now a Maven wrapper project
+14) If you are doing the above process from Windows Command Prompt (cmd) then to start the recorder run this command: "mvnw.cmd gatling:recorder"
