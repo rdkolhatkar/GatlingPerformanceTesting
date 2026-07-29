@@ -37,5 +37,6 @@ Start Recording With Gatling Recorder
 19) Then go to GitBash then change directory to root folder example: cd /d/Gatling/GatlingStandAlone/gatling-charts-highcharts-bundle-3.15.1
 20) Now to run the simulation execute command: ./mvnw gatling:test
 21) Important Note: With the latest version of Gatling you cannot directly run the any scala file directly through the GitBash without specific customized configuration. Because Starting with Gatling 3.11, the old standalone bundle layout was replaced with a Maven wrapper–based bundle. The latest bundle is still called a "bundle", but internally it's a Maven project.
+22) Refer the images from path : ImportantNotes/ImportantGatlingImages/GatlingStandAloneRecorderTestSetUp
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
