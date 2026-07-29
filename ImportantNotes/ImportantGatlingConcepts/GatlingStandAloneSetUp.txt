@@ -1,0 +1,42 @@
+Download and Run Gatling Standalone
+1) Navigate to the official gating website "https://gatling.io/"
+2) You can directly select the Dropdown As JAVA under the "download-gatling-community-edition" web page
+3) Otherwise you can search for this option Or find alternative installation options in the documentation.
+4) This option will take you to the official gatling documentation page: "https://docs.gatling.io/?utm_source=website"
+5) On the official Gatling documentation page search for "Getting started" then click on "Install Gatling for Java"
+6) It will open the Installation Guide: "https://docs.gatling.io/tutorials/test-as-code/java-jvm/installation-guide/"
+7) Then search for the "Use the standalone bundle" and click on the Download Gatling Bundle button
+8) It will download the "gatling-charts-highcharts-bundle-3.15.1-bundle.zip" file
+9) After download is completed, open the git bash and navigate to the folder where you have downloaded the zip file. Example: cd /d/Gatling/GatlingStandAlone
+10) Then run the command to extract the Zip file. Example:  unzip gatling-charts-highcharts-bundle-3.15.1-bundle.zip
+11) Then go inside the extracted zip folder. Example: cd gatling-charts-highcharts-bundle-3.15.1
+12) And run the command as : "./mvnw gatling:recorder" it will launch the gatling recorder.
+13) Starting with Gatling 3.11, Gatling no longer ships the old bin/recorder.bat. The standalone bundle is now a Maven wrapper project
+14) If you are doing the above process from Windows Command Prompt (cmd) then to start the recorder run this command: "mvnw.cmd gatling:recorder"
+15) Now after this it will open the Gatling Recorder Configuration Window
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Start Recording With Gatling Recorder
+1) Open GitBash and Navigate to Gatling standalone folder by changing the directories.
+2) Example: cd /d/Gatling/GatlingStandAlone/gatling-charts-highcharts-bundle-3.15.1
+3) And run the command as : "./mvnw gatling:recorder" it will launch the gatling recorder.
+4) Then we have to import the HAR file which is nothing but the record of browser network calls recorded with their resource details for a specific website
+5) Open the Google Chrome Browser and navigate to "https://blazedemo.com/" Then right click and do inspec to open chrome dev tools
+6) Click on Network Tab, Clear all existing logs and start fresh recording, then Enable the options -> 1) Preserve log  2) Disable cache
+7) Then refresh the page for initial network call
+8) Then perform all the flight booking steps until you see the message as "Thank you for your purchase today!"
+9) Now we have to save all these Network call logs as Har file. If you are not able to see the save all as HAR option after right clicking on the Network Tab then select the copy option and click on copy as HAR
+10) Then paste it into a notepad and click on save as button and give the file extension as .har and select save as type => All Files(*.*)
+11) Also select the Encoding as => UTF-8
+12) Now inside the Gatling Recorder Select the recording mode as "Har Converter" then import the .har file or select the .har file using brows button
+13) Then inside simulation information section write the package name and simulation name. After that select the format as Java Or Scala as per your choice
+14) Then click on the non static resources under DenyList Tab, Then check the checkboxes for custom configurations like save and check response bodies etc.
+15) Then click on start button it will generate the simulation file for performance testing
+16) Now open the folder where simulation file is located in git bash example: cd /d/Gatling/GatlingStandAlone/gatling-charts-highcharts-bundle-3.15.1/src/test/java/blazedemoTest
+17) Run command ls -ltr to check if simulation.java or simulation.scala file exists or not in our case it will be BlazeDemoWebSimulation.java
+18) Open the script in Notepad or sublime text and do your code changes for editing the load, throughput or duration.
+19) Then go to GitBash then change directory to root folder example: cd /d/Gatling/GatlingStandAlone/gatling-charts-highcharts-bundle-3.15.1
+20) Now to run the simulation execute command: ./mvnw gatling:test
+21) Important Note: With the latest version of Gatling you cannot directly run the any scala file directly through the GitBash without specific customized configuration. Because Starting with Gatling 3.11, the old standalone bundle layout was replaced with a Maven wrapper–based bundle. The latest bundle is still called a "bundle", but internally it's a Maven project.
+22) Refer the images from path : ImportantNotes/ImportantGatlingImages/GatlingStandAloneRecorderTestSetUp
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
