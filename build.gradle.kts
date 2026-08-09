@@ -1,11 +1,11 @@
 plugins {
     java
     scala
-    id("io.gatling.gradle") version "3.9.2"
+    id("io.gatling.gradle") version "3.10.0"
 }
 
 group = "com.gatling"
-version = "1.0"
+version = "3.10.0"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -16,12 +16,12 @@ repositories {
     mavenCentral()
 }
 
-val gatlingVersion = "3.9.2"
+val gatlingVersion = "3.10.0"
 val scalaVersion = "2.13.12"
 
 dependencies {
 
-    // Scala Library (Required)
+    // Scala
     implementation("org.scala-lang:scala-library:$scalaVersion")
 
     // Gatling
@@ -29,8 +29,13 @@ dependencies {
     gatlingImplementation("io.gatling:gatling-app:$gatlingVersion")
     gatlingImplementation("io.gatling.highcharts:gatling-charts-highcharts:$gatlingVersion")
 
-    // Optional Recorder
+    // Gatling Recorder
     gatlingImplementation("io.gatling:gatling-recorder:$gatlingVersion")
+
+    // Required so Engine.scala can access Gatling classes
+    testImplementation("io.gatling:gatling-app:$gatlingVersion")
+    testImplementation("io.gatling.highcharts:gatling-charts-highcharts:$gatlingVersion")
+    testImplementation("org.scala-lang:scala-library:$scalaVersion")
 }
 
 sourceSets {
@@ -45,24 +50,37 @@ tasks.register<JavaExec>("perfTest") {
     description = "Run Gatling Performance Tests"
 
     classpath = sourceSets["gatling"].runtimeClasspath
+
     mainClass.set("io.gatling.app.Gatling")
 
     args = listOf(
             "-s",
-            "com.gatling.simulation.Openbrewerydb"
+            "com.gatling.simulation.ComputerDatabaseSimulation"
     )
 
-    jvmArgs("-Xms512m", "-Xmx2g")
+    jvmArgs(
+            "-Xms512m",
+            "-Xmx2g"
+    )
 }
 
 tasks.withType<ScalaCompile>().configureEach {
+
     scalaCompileOptions.encoding = "UTF-8"
+
+    scalaCompileOptions.additionalParameters = listOf(
+            "-deprecation",
+            "-feature",
+            "-unchecked",
+            "-language:implicitConversions",
+            "-language:postfixOps"
+    )
 }
 
-tasks.withType<JavaCompile>().configureEach {
-    options.encoding = "UTF-8"
+tasks.withType<ProcessResources>().configureEach {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
-tasks.withType<Copy>().configureEach {
+tasks.withType<Jar>().configureEach {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
