@@ -14,7 +14,8 @@ object Engine extends App {
       IDEPathHelper.mavenBinariesDirectory.toString
     )
     .simulationClass(
-      "com.gatling.simulation.ComputerDatabaseSimulation"
+//      "com.gatling.simulation.ComputerDatabaseSimulation"
+      "com.gatling.simulation.GetVideoGamesDbApiSimulation"
     )
 
   Gatling.fromMap(props.build)
