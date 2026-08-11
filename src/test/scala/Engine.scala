@@ -15,6 +15,7 @@ object Engine extends App {
     )
     .simulationClass(
 //      "com.gatling.simulation.ComputerDatabaseSimulation"
+//      "com.gatling.simulation.GetAllVideoGamesDbApiSimulation"
       "com.gatling.simulation.GetVideoGamesDbApiSimulation"
     )
 
