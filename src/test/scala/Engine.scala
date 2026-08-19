@@ -19,7 +19,8 @@ object Engine extends App {
 //      "com.gatling.simulation.GetVideoGamesDbApiSimulation"
 //      "com.gatling.simulation.GetVideoGameByIdApiSimulation"
 //      "com.gatling.simulation.GetVideoGameApiSimulation"
-        "com.gatling.simulation.ListAllVideoGamesDbSimulation"
+//      "com.gatling.simulation.ListAllVideoGamesDbSimulation"
+        "com.gatling.simulation.GatlingMethodCodeReuseSimuation"
     )
 
   Gatling.fromMap(props.build)
