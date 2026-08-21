@@ -15,13 +15,14 @@ object Engine extends App {
     )
     .simulationClass(
 //      "com.gatling.simulation.ComputerDatabaseSimulation"
-//      "com.gatling.simulation.GetAllVideoGamesDbApiSimulation"
+//      "com.gatling.simulation.PauseTimeoutGatlingSimulation"
 //      "com.gatling.simulation.GetVideoGamesDbApiSimulation"
-//      "com.gatling.simulation.GetVideoGameByIdApiSimulation"
-//      "com.gatling.simulation.GetVideoGameApiSimulation"
+//      "com.gatling.simulation.ResponseStatusAndBodyCheckSimulation"
+//      "com.gatling.simulation.PrintingSessionLogsGameApiSimulation"
 //      "com.gatling.simulation.ListAllVideoGamesDbSimulation"
 //      "com.gatling.simulation.GatlingMethodCodeReuseSimuation"
-      "com.gatling.simulation.LoopingHttpCallsWithGatling"
+//      "com.gatling.simulation.LoopingHttpCallsWithGatling"
+      "com.gatling.simulation.AuthenticatingInGatlingSimulation"
     )
 
   Gatling.fromMap(props.build)

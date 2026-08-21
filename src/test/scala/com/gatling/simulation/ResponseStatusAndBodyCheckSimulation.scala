@@ -2,7 +2,7 @@ package com.gatling.simulation
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 
-class GetVideoGameByIdApiSimulation extends Simulation {
+class ResponseStatusAndBodyCheckSimulation extends Simulation {
 
   val httpProtocol = http.baseUrl("https://videogamedb.uk")
     .acceptHeader("application/json")
