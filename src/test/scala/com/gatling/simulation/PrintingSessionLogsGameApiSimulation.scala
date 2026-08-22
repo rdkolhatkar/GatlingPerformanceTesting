@@ -3,7 +3,7 @@ package com.gatling.simulation
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 
-class GetVideoGameApiSimulation extends Simulation{
+class PrintingSessionLogsGameApiSimulation extends Simulation{
 
   val httpProtocol = http.baseUrl("https://videogamedb.uk")
     .acceptHeader("application/json")
