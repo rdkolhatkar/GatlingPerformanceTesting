@@ -19,6 +19,8 @@ class AuthenticatingInGatlingSimulation extends Simulation {
     exec(
       http("Generate Token for Authentication")
         .post("/api/authenticate")
+        .header("Content-Type", "application/json")
+        .header("Accept", "application/json")
         .body(
           StringBody(
             """{
