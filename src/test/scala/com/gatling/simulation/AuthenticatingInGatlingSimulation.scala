@@ -6,7 +6,7 @@ import io.gatling.http.Predef._
 class AuthenticatingInGatlingSimulation extends Simulation {
 
   val httpProtocol = http
-    .baseUrl("https://videogamedb.uk")
+    .baseUrl("https://videogamedb.uk:443")
     .acceptHeader("application/json")
     .contentTypeHeader("application/json")
 

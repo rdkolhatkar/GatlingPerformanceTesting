@@ -6,9 +6,7 @@ import io.gatling.http.Predef._
 class GatlingCsvFeederSimulation extends Simulation {
 
   val httpProtocol = http
-    .baseUrl("https://videogamedb.uk")
-    .acceptHeader("application/json")
-    .contentTypeHeader("application/json")
+    .baseUrl("https://videogamedb.uk:443")
 
   // CSV Feeders
   val credentialsFeeder = csv("data/credentials.csv").circular
@@ -22,8 +20,8 @@ class GatlingCsvFeederSimulation extends Simulation {
       .exec(
         http("Generate Token for Authentication")
           .post("/api/authenticate")
+          .header("accept", "application/json")
           .header("Content-Type", "application/json")
-          .header("Accept", "application/json")
           .body(
             StringBody(
               """{
@@ -64,6 +62,8 @@ class GatlingCsvFeederSimulation extends Simulation {
       .exec(
         http("Create New Game")
           .post("/api/videogame")
+          .header("accept", "application/json")
+          .header("Content-Type", "application/json")
 
           .header(
             "Authorization",
