@@ -24,7 +24,9 @@ object Engine extends App {
 //      "com.gatling.simulation.LoopingHttpCallsWithGatling"
 //      "com.gatling.simulation.AuthenticatingInGatlingSimulation"
 //      "com.gatling.simulation.GatlingCsvFeederSimulation"
-        "com.gatling.simulation.BasicTestCustomFeederSimulation"
+//      "com.gatling.simulation.BasicTestCustomFeederSimulation"
+//      "com.gatling.simulation.ComplexCustomFeederSimulation"
+        "com.gatling.simulation.CustomJsonFeederSimulation"
     )
 
   Gatling.fromMap(props.build)
