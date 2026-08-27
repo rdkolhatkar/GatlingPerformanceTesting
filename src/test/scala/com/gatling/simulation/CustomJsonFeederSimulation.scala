@@ -6,7 +6,7 @@ import io.gatling.http.Predef._
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import scala.util.Random
-class ComplexCustomFeederSimulation extends Simulation{
+class CustomJsonFeederSimulation extends Simulation{
 
   val httpProtocol = http
     .baseUrl("https://videogamedb.uk:443")
@@ -51,28 +51,19 @@ class ComplexCustomFeederSimulation extends Simulation{
     repeat(10){
       feed(customFeeder)
         .exec(http("Create New Game - #{name}")
-        .post("/api/videogame")
-        .header("authorization", "Bearer #{jwtAuthToken}")
-          .body(StringBody(
-            """{
-              "id": #{gameId},
-              "name": "#{name}",
-              "releaseDate": "#{releaseDate}",
-              "reviewScore": #{reviewScore},
-              "category": "#{category}",
-              "rating": "#{rating}"
-            }"""))
-          .check(bodyString.saveAs("responseBody"))
-        )
+          .post("/api/videogame")
+          .header("authorization", "Bearer #{jwtAuthToken}")
+          .body(ElFileBody("src/test/resources/json/NewGameTemplate.json")).asJson
+          .check(bodyString.saveAs("responseBody")))
         .exec{session => println(session("responseBody").as[String]); session}
         .pause(1)
     }
   }
   val scn = scenario("Complex Custom Feeders").exec(authenticate()).exec(createNewGame())
+
   setUp(
     scn.inject(
       atOnceUsers(1)
     )
   ).protocols(httpProtocol)
-
 }
