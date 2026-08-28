@@ -14,19 +14,20 @@ object Engine extends App {
       IDEPathHelper.mavenBinariesDirectory.toString
     )
     .simulationClass(
-//      "com.gatling.simulation.ComputerDatabaseSimulation"
-//      "com.gatling.simulation.PauseTimeoutGatlingSimulation"
-//      "com.gatling.simulation.GetVideoGamesDbApiSimulation"
-//      "com.gatling.simulation.ResponseStatusAndBodyCheckSimulation"
-//      "com.gatling.simulation.PrintingSessionLogsGameApiSimulation"
-//      "com.gatling.simulation.ListAllVideoGamesDbSimulation"
-//      "com.gatling.simulation.GatlingMethodCodeReuseSimuation"
-//      "com.gatling.simulation.LoopingHttpCallsWithGatling"
-//      "com.gatling.simulation.AuthenticatingInGatlingSimulation"
-//      "com.gatling.simulation.GatlingCsvFeederSimulation"
-//      "com.gatling.simulation.BasicTestCustomFeederSimulation"
-//      "com.gatling.simulation.ComplexCustomFeederSimulation"
-        "com.gatling.simulation.CustomJsonFeederSimulation"
+//      "com.gatling.simulation.basic.ComputerDatabaseSimulation"
+//      "com.gatling.simulation.basic.PauseTimeoutGatlingSimulation"
+//      "com.gatling.simulation.basic.GetVideoGamesDbApiSimulation"
+//      "com.gatling.simulation.basic.ResponseStatusAndBodyCheckSimulation"
+//      "com.gatling.simulation.basic.PrintingSessionLogsGameApiSimulation"
+//      "com.gatling.simulation.basic.ListAllVideoGamesDbSimulation"
+//      "com.gatling.simulation.basic.GatlingMethodCodeReuseSimuation"
+//      "com.gatling.simulation.basic.LoopingHttpCallsWithGatling"
+//      "com.gatling.simulation.basic.AuthenticatingInGatlingSimulation"
+//      "com.gatling.simulation.basic.GatlingCsvFeederSimulation"
+//      "com.gatling.simulation.basic.BasicTestCustomFeederSimulation"
+//      "com.gatling.simulation.basic.ComplexCustomFeederSimulation"
+//      "com.gatling.simulation.basic.CustomJsonFeederSimulation"
+      "com.gatling.simulation.tests.BasicLoadSimulation"
     )
 
   Gatling.fromMap(props.build)

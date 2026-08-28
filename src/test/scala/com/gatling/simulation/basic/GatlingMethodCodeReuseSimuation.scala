@@ -1,4 +1,5 @@
-package com.gatling.simulation
+package com.gatling.simulation.basic
+
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 class GatlingMethodCodeReuseSimuation extends Simulation{
