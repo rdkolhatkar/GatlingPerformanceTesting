@@ -1,9 +1,10 @@
-package com.gatling.simulation
+package com.gatling.simulation.basic
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 
-class DebugSessionVariablesForGameDB extends Simulation{
+class ListAllVideoGamesDbSimulation extends Simulation {
+
   val httpProtocol = http
     .baseUrl("https://videogamedb.uk:443")
     .acceptHeader("application/json")
@@ -20,7 +21,6 @@ class DebugSessionVariablesForGameDB extends Simulation{
           jsonPath("$[5].id").saveAs("Game_ID")
         )
     )
-    .exec{session => println(session); session} // Print the entire session in console
 
     // Print Get All Games response
     .exec { session =>
