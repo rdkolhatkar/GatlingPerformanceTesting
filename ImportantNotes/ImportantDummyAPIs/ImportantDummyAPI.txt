@@ -1,3 +1,5 @@
 Video Game DB 2022 API Swagger: https://videogamedb.uk/swagger-ui/index.html
 ------------------------------------------------------------------------------------------------------------
 JSONPlaceholder Practice API: https://jsonplaceholder.typicode.com/
+------------------------------------------------------------------------------------------------------------
+API Automation Playground: https://api.qaautomationlabs.com/?utm_source=chatgpt.com
