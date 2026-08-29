@@ -55,7 +55,7 @@ tasks.register<JavaExec>("perfTest") {
 
     args = listOf(
             "-s",
-            "com.gatling.simulation.ComputerDatabaseSimulation"
+            "com.gatling.simulation.basic.ComputerDatabaseSimulation"
     )
 
     jvmArgs(
@@ -65,7 +65,6 @@ tasks.register<JavaExec>("perfTest") {
 }
 
 tasks.withType<ScalaCompile>().configureEach {
-
     scalaCompileOptions.encoding = "UTF-8"
 
     scalaCompileOptions.additionalParameters = listOf(
