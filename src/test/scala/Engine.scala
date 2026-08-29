@@ -27,7 +27,9 @@ object Engine extends App {
 //      "com.gatling.simulation.basic.BasicTestCustomFeederSimulation"
 //      "com.gatling.simulation.basic.ComplexCustomFeederSimulation"
 //      "com.gatling.simulation.basic.CustomJsonFeederSimulation"
-      "com.gatling.simulation.tests.BasicLoadSimulation"
+//      "com.gatling.simulation.tests.BasicLoadSimulation"
+//      "com.gatling.simulation.tests.GatlingCsvFeederJwtApiSimulation"
+      "com.gatling.simulation.tests.CustomJsonFeederJsonPlaceholderSimulation"
     )
 
   Gatling.fromMap(props.build)
