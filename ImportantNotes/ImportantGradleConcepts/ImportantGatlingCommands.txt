@@ -1,0 +1,1672 @@
+GATLING MAVEN & GRADLE COMMANDS
+================================
+
+Complete Terminal / Git Bash Cheat Sheet
+From Basic to Advanced
+
+1. BASIC GATLING EXECUTION FLOW
+================================
+
+A typical Gatling project looks like:
+
+Gatling Project
+|
++-- src
+|   +-- test
+|       +-- java/                  # Java simulations
+|       +-- scala/                 # Scala simulations
+|       +-- resources/
+|           +-- feeders/
+|           +-- bodies/
+|
++-- pom.xml                        # Maven project
++-- build.gradle                   # Gradle project
++-- gradlew                        # Gradle Wrapper
++-- mvnw                           # Maven Wrapper
+
+Basic execution flow:
+
+Terminal / Git Bash
+        |
+        v
+ Maven / Gradle
+        |
+        v
+ Gatling Plugin
+        |
+        v
+ Simulation Class
+        |
+        v
+ Scenario
+        |
+        v
+ HTTP / Other Requests
+        |
+        v
+ Load Injection
+        |
+        v
+ Gatling Results
+        |
+        v
+ HTML Report
+
+
+2. MAVEN COMMANDS
+==================
+
+2.1 Check Maven Version
+-----------------------
+
+Command:
+
+mvn -version
+
+or:
+
+mvn -v
+
+Purpose:
+
+Checks:
+- Maven version
+- Java version used by Maven
+- Maven home
+- Operating system information
+
+Example:
+
+mvn -version
+
+
+2.2 Compile the Project
+-----------------------
+
+Compile the main project:
+
+mvn compile
+
+Compile test source code:
+
+mvn test-compile
+
+Typical sequence:
+
+mvn clean
+mvn compile
+mvn test-compile
+
+
+2.3 Clean the Project
+---------------------
+
+Command:
+
+mvn clean
+
+Purpose:
+
+Removes the target/ directory and previously generated build artifacts.
+
+Before:
+
+project/
++-- src/
++-- pom.xml
++-- target/
+    +-- classes/
+    +-- test-classes/
+    +-- ...
+
+After mvn clean:
+
+project/
++-- src/
++-- pom.xml
+
+Useful when:
+- Old compiled classes are causing problems
+- Old Gatling results are causing confusion
+- Dependencies or configuration have changed
+- You want a fresh build
+
+
+2.4 Run Gatling
+---------------
+
+Command:
+
+mvn gatling:test
+
+Purpose:
+
+Runs Gatling using the Gatling Maven plugin.
+
+This is one of the main Maven commands used for Gatling.
+
+
+2.5 Run a Specific Gatling Simulation
+-------------------------------------
+
+Command:
+
+mvn gatling:test -Dgatling.simulationClass=com.example.MySimulation
+
+Example:
+
+mvn gatling:test -Dgatling.simulationClass=com.gatling.simulation.tests.BasicSimulation
+
+General syntax:
+
+mvn gatling:test -Dgatling.simulationClass=<FULLY_QUALIFIED_CLASS_NAME>
+
+Example:
+
+If the simulation is:
+
+package com.gatling.simulation.tests
+
+class BasicSimulation extends Simulation {
+}
+
+Run:
+
+mvn gatling:test -Dgatling.simulationClass=com.gatling.simulation.tests.BasicSimulation
+
+IMPORTANT:
+
+The value must normally be the fully qualified class name:
+
+package + class name
+
+For example:
+
+Package:
+com.gatling.simulation.tests
+
+Class:
+BasicSimulation
+
+Fully qualified class name:
+
+com.gatling.simulation.tests.BasicSimulation
+
+
+2.6 Multiple Simulations
+------------------------
+
+If your project contains multiple simulations, running:
+
+mvn gatling:test
+
+may cause Gatling to ask you to select a simulation, depending on the
+Gatling Maven plugin/version/configuration.
+
+For automated execution, it is better to explicitly specify the
+simulation:
+
+mvn gatling:test -Dgatling.simulationClass=com.example.LoadTestSimulation
+
+
+2.7 Clean + Run Gatling
+-----------------------
+
+Command:
+
+mvn clean gatling:test
+
+This is useful when you want to clean old build files before executing
+the performance test.
+
+Specific simulation:
+
+mvn clean gatling:test -Dgatling.simulationClass=com.example.BasicSimulation
+
+
+2.8 Maven Debug Logging
+-----------------------
+
+Normal:
+
+mvn gatling:test
+
+Debug:
+
+mvn -X gatling:test
+
+or:
+
+mvn --debug gatling:test
+
+Useful for troubleshooting:
+- Simulation not found
+- Plugin problems
+- Dependency problems
+- ClassNotFoundException
+- Configuration errors
+- Build errors
+
+
+2.9 Maven Error Output
+----------------------
+
+Show errors:
+
+mvn -e gatling:test
+
+Verbose debug:
+
+mvn -X gatling:test
+
+You can combine options:
+
+mvn -X -e gatling:test
+
+
+2.10 Quiet Maven Output
+-----------------------
+
+Command:
+
+mvn -q gatling:test
+
+-q means quiet mode.
+
+Useful when you want less Maven logging.
+
+
+2.11 Force Maven Dependency Update
+----------------------------------
+
+Command:
+
+mvn -U gatling:test
+
+-U tells Maven to check for updated dependencies.
+
+Useful when:
+- A dependency version was changed
+- Maven is using an old cached dependency
+- Snapshot dependencies have changed
+
+
+2.12 Maven Offline Mode
+-----------------------
+
+Command:
+
+mvn -o gatling:test
+
+-o means offline mode.
+
+Maven will use locally cached dependencies and will not try to download
+dependencies from remote repositories.
+
+
+2.13 Maven Wrapper
+------------------
+
+If your project contains:
+
+mvnw
+mvnw.cmd
+
+Prefer the Maven Wrapper:
+
+./mvnw gatling:test
+
+instead of:
+
+mvn gatling:test
+
+Reason:
+
+mvn
+    |
+    +-- Uses globally installed Maven
+
+./mvnw
+    |
+    +-- Uses the Maven version configured by the project
+
+
+2.14 Maven Wrapper + Specific Simulation
+----------------------------------------
+
+Command:
+
+./mvnw gatling:test \
+-Dgatling.simulationClass=com.example.LoadSimulation
+
+On Git Bash, the backslash "\" allows a command to continue on the
+next line.
+
+The same command can also be written in one line:
+
+./mvnw gatling:test -Dgatling.simulationClass=com.example.LoadSimulation
+
+
+2.15 Maven Build
+----------------
+
+Compile:
+
+mvn compile
+
+Package:
+
+mvn package
+
+Install:
+
+mvn install
+
+Clean + package:
+
+mvn clean package
+
+Clean + Gatling:
+
+mvn clean gatling:test
+
+
+2.16 Maven Skip Tests
+---------------------
+
+Skip test execution:
+
+mvn package -DskipTests
+
+Skip test compilation and execution:
+
+mvn package -Dmaven.test.skip=true
+
+NOTE:
+
+These options are Maven lifecycle options. They are not required for
+normal Gatling execution.
+
+
+2.17 Maven Environment Variables
+--------------------------------
+
+Git Bash:
+
+export BASE_URL=https://api.example.com
+
+Then:
+
+mvn gatling:test
+
+Or:
+
+BASE_URL=https://api.example.com mvn gatling:test
+
+In Scala:
+
+val baseUrl =
+  sys.env.getOrElse("BASE_URL", "http://localhost:8080")
+
+Multiple environment variables:
+
+export BASE_URL=https://api.example.com
+export USERS=100
+export DURATION=300
+
+Then:
+
+mvn gatling:test
+
+
+2.18 Maven Parameters / System Properties
+-----------------------------------------
+
+You can pass parameters using -D:
+
+mvn gatling:test \
+-Dgatling.simulationClass=com.example.LoadSimulation \
+-Dusers=100 \
+-Dduration=300
+
+Scala example:
+
+val users =
+  sys.props.getOrElse("users", "10").toInt
+
+val duration =
+  sys.props.getOrElse("duration", "60").toInt
+
+Then:
+
+mvn gatling:test \
+-Dgatling.simulationClass=com.example.LoadSimulation \
+-Dusers=100 \
+-Dduration=300
+
+
+2.19 Maven Log to File
+----------------------
+
+Save output to a file:
+
+mvn gatling:test > gatling.log 2>&1
+
+Meaning:
+
+> gatling.log
+    |
+    +-- Redirect standard output to gatling.log
+
+2>&1
+    |
+    +-- Redirect error output to the same file
+
+
+2.20 Maven Show and Save Output
+-------------------------------
+
+Git Bash:
+
+mvn gatling:test 2>&1 | tee gatling.log
+
+This:
+- Displays the output in the terminal
+- Saves the same output into gatling.log
+
+
+3. GRADLE COMMANDS
+==================
+
+3.1 Check Gradle Version
+------------------------
+
+If Gradle is installed globally:
+
+gradle -version
+
+Prefer the Gradle Wrapper when available:
+
+./gradlew -version
+
+On Git Bash:
+
+./gradlew -version
+
+
+3.2 List Gradle Tasks
+---------------------
+
+Command:
+
+./gradlew tasks
+
+This displays available Gradle tasks.
+
+For all tasks:
+
+./gradlew tasks --all
+
+This is extremely useful when you don't know which Gatling task is
+available in the project.
+
+
+3.3 Run Gatling
+---------------
+
+With the Gatling Gradle plugin:
+
+./gradlew gatlingRun
+
+This is the common Gradle command for running Gatling.
+
+
+3.4 Run a Specific Simulation
+-----------------------------
+
+Command:
+
+./gradlew gatlingRun --simulation=com.example.BasicSimulation
+
+Example:
+
+./gradlew gatlingRun \
+--simulation=com.gatling.simulation.tests.GatlingRampLoadSimulation
+
+General syntax:
+
+./gradlew gatlingRun --simulation=<FULLY_QUALIFIED_CLASS_NAME>
+
+
+3.5 Clean the Gradle Project
+----------------------------
+
+Command:
+
+./gradlew clean
+
+This removes the Gradle build/ directory and generated build artifacts.
+
+
+3.6 Clean + Run Gatling
+-----------------------
+
+Command:
+
+./gradlew clean gatlingRun
+
+Specific simulation:
+
+./gradlew clean gatlingRun \
+--simulation=com.gatling.simulation.tests.BasicSimulation
+
+This is one of the most useful commands for normal development and
+troubleshooting.
+
+
+3.7 Gradle Info Logging
+-----------------------
+
+Command:
+
+./gradlew gatlingRun --info
+
+Useful for:
+- Understanding task execution
+- Dependency problems
+- Plugin problems
+- Build troubleshooting
+
+
+3.8 Gradle Debug Logging
+------------------------
+
+Command:
+
+./gradlew gatlingRun --debug
+
+This generates much more detailed logging.
+
+Use it when normal logs are not enough.
+
+
+3.9 Gradle Stack Trace
+----------------------
+
+Command:
+
+./gradlew gatlingRun --stacktrace
+
+Useful when an exception occurs.
+
+You can combine:
+
+./gradlew gatlingRun --info --stacktrace
+
+
+3.10 Gradle Refresh Dependencies
+--------------------------------
+
+Command:
+
+./gradlew gatlingRun --refresh-dependencies
+
+Useful when:
+- Dependency versions changed
+- Gradle is using stale cached dependencies
+- Plugin/dependency resolution is behaving unexpectedly
+
+
+3.11 Gradle Offline Mode
+------------------------
+
+Command:
+
+./gradlew gatlingRun --offline
+
+Gradle will use cached dependencies and will not attempt to download
+dependencies from remote repositories.
+
+
+3.12 Gradle Properties
+----------------------
+
+Command:
+
+./gradlew properties
+
+Displays project properties.
+
+Useful when checking:
+- Project configuration
+- Properties
+- Build settings
+
+
+3.13 Gradle Build
+-----------------
+
+Build:
+
+./gradlew build
+
+Clean build:
+
+./gradlew clean build
+
+Build while skipping unit tests:
+
+./gradlew build -x test
+
+Run Gatling:
+
+./gradlew gatlingRun
+
+Clean + Gatling:
+
+./gradlew clean gatlingRun
+
+
+3.14 Gradle System Properties
+-----------------------------
+
+Pass parameters using -D:
+
+./gradlew gatlingRun \
+-Dusers=100 \
+-Dduration=300
+
+Specific simulation:
+
+./gradlew gatlingRun \
+--simulation=com.example.LoadSimulation \
+-Dusers=100 \
+-Dduration=300
+
+Scala:
+
+val users =
+  sys.props.getOrElse("users", "10").toInt
+
+val duration =
+  sys.props.getOrElse("duration", "60").toInt
+
+
+3.15 Gradle Environment Variables
+---------------------------------
+
+Git Bash:
+
+export BASE_URL=https://api.example.com
+
+Then:
+
+./gradlew gatlingRun
+
+Or:
+
+BASE_URL=https://api.example.com ./gradlew gatlingRun
+
+Scala:
+
+val baseUrl =
+  sys.env.getOrElse("BASE_URL", "http://localhost:8080")
+
+
+3.16 Multiple Environment Variables with Gradle
+-----------------------------------------------
+
+Git Bash:
+
+export BASE_URL=https://api.example.com
+export USERS=100
+export DURATION=300
+
+Then:
+
+./gradlew gatlingRun
+
+Or in one command:
+
+BASE_URL=https://api.example.com \
+USERS=100 \
+DURATION=300 \
+./gradlew gatlingRun
+
+
+3.17 Gradle Simulation + Environment + Parameters
+-------------------------------------------------
+
+Example:
+
+BASE_URL=https://api.example.com \
+./gradlew gatlingRun \
+--simulation=com.company.performance.ApiLoadSimulation \
+-Dusers=100 \
+-Dduration=300
+
+
+4. MAVEN VS GRADLE
+==================
+
+Purpose                         Maven                         Gradle
+---------------------------------------------------------------------------
+Check version                  mvn -version                  ./gradlew -version
+Clean                          mvn clean                     ./gradlew clean
+Compile                        mvn compile                   ./gradlew compileJava
+Run Gatling                    mvn gatling:test              ./gradlew gatlingRun
+Specific simulation            -Dgatling.simulationClass     --simulation
+Debug                          mvn -X                       --debug
+Info logging                  mvn -X                       --info
+Stack trace                    mvn -e                       --stacktrace
+Refresh dependencies          mvn -U                       --refresh-dependencies
+Offline                       mvn -o                       --offline
+Tasks                         Maven lifecycle               ./gradlew tasks
+
+
+5. SIMULATION CLASS VS SCENARIO
+================================
+
+This is VERY IMPORTANT.
+
+Suppose you have:
+
+class MySimulation extends Simulation {
+
+  val loginScenario =
+    scenario("Login Scenario")
+      .exec(...)
+
+  val searchScenario =
+    scenario("Search Scenario")
+      .exec(...)
+
+  setUp(
+    loginScenario.inject(...),
+    searchScenario.inject(...)
+  )
+}
+
+
+The terminal command normally selects the:
+
+Simulation
+
+not the individual:
+
+Scenario
+
+
+For example:
+
+./gradlew gatlingRun \
+--simulation=com.example.MySimulation
+
+Maven:
+
+mvn gatling:test \
+-Dgatling.simulationClass=com.example.MySimulation
+
+You generally do NOT run:
+
+./gradlew gatlingRun --scenario=LoginScenario
+
+Instead, the Simulation class controls which scenarios are executed.
+
+
+6. EXAMPLE PROJECT WITH MULTIPLE SIMULATIONS
+=============================================
+
+Suppose:
+
+src/test/scala/
+|
++-- BasicSimulation.scala
++-- RampLoadSimulation.scala
++-- StressTestSimulation.scala
++-- SpikeTestSimulation.scala
++-- SoakTestSimulation.scala
+
+
+Run BasicSimulation:
+
+./gradlew gatlingRun \
+--simulation=com.gatling.simulation.tests.BasicSimulation
+
+
+Run RampLoadSimulation:
+
+./gradlew gatlingRun \
+--simulation=com.gatling.simulation.tests.RampLoadSimulation
+
+
+Run StressTestSimulation:
+
+./gradlew gatlingRun \
+--simulation=com.gatling.simulation.tests.StressTestSimulation
+
+
+Run SpikeTestSimulation:
+
+./gradlew gatlingRun \
+--simulation=com.gatling.simulation.tests.SpikeTestSimulation
+
+
+Run SoakTestSimulation:
+
+./gradlew gatlingRun \
+--simulation=com.gatling.simulation.tests.SoakTestSimulation
+
+
+7. FINDING SIMULATIONS FROM GIT BASH
+====================================
+
+List Scala files:
+
+find src -name "*.scala"
+
+List Java files:
+
+find src -name "*.java"
+
+Find classes extending Simulation:
+
+grep -R "extends Simulation" src
+
+Find simulation files:
+
+find src/test -type f | grep Simulation
+
+Find simulation class declarations:
+
+grep -R "class .*Simulation" src/test
+
+
+8. GATLING REPORTS
+==================
+
+After a Gatling execution, an HTML report is generated.
+
+Typical Gradle location:
+
+build/
+|
++-- reports/
+    |
+    +-- gatling/
+        |
+        +-- <simulation-name>-<timestamp>/
+            |
+            +-- index.html
+
+
+Typical Maven location:
+
+target/
+|
++-- gatling/
+    |
+    +-- <simulation-name>-<timestamp>/
+        |
+        +-- index.html
+
+
+NOTE:
+
+The exact report location can differ depending on:
+- Gatling version
+- Maven plugin version
+- Gradle plugin version
+- Project configuration
+
+
+9. FIND GATLING REPORTS
+=======================
+
+Gradle:
+
+find build -name "index.html"
+
+Maven:
+
+find target -name "index.html"
+
+List Gradle Gatling reports:
+
+ls build/reports/gatling
+
+List Maven Gatling reports:
+
+ls target/gatling
+
+
+10. OPEN GATLING REPORT FROM GIT BASH
+=====================================
+
+Example:
+
+start build/reports/gatling/<simulation>/index.html
+
+For Maven:
+
+start target/gatling/<simulation>/index.html
+
+The exact path depends on the generated report directory.
+
+
+11. STOP A RUNNING GATLING TEST
+===============================
+
+If Gatling is running in the terminal:
+
+Press:
+
+CTRL + C
+
+Example:
+
+./gradlew gatlingRun
+
+Then press:
+
+CTRL + C
+
+
+12. RUN GATLING IN BACKGROUND
+=============================
+
+Git Bash:
+
+./gradlew gatlingRun &
+
+Check jobs:
+
+jobs
+
+Bring the process to foreground:
+
+fg
+
+
+13. SAVE GATLING OUTPUT TO A LOG FILE
+=====================================
+
+Gradle:
+
+./gradlew gatlingRun > gatling.log 2>&1
+
+Maven:
+
+mvn gatling:test > gatling.log 2>&1
+
+
+14. DISPLAY AND SAVE LOGS AT THE SAME TIME
+===========================================
+
+Gradle:
+
+./gradlew gatlingRun 2>&1 | tee gatling.log
+
+Maven:
+
+mvn gatling:test 2>&1 | tee gatling.log
+
+
+15. SEARCH GATLING LOGS
+=======================
+
+Search for ERROR:
+
+grep "ERROR" gatling.log
+
+Search for KO:
+
+grep "KO" gatling.log
+
+Search for HTTP 500:
+
+grep "500" gatling.log
+
+Case-insensitive search for exceptions:
+
+grep -i "exception" gatling.log
+
+Search for timeout:
+
+grep -i "timeout" gatling.log
+
+Search for connection errors:
+
+grep -i "connection" gatling.log
+
+
+16. CHAINING COMMANDS
+=====================
+
+Run second command only if first succeeds:
+
+./gradlew clean && ./gradlew gatlingRun
+
+With simulation:
+
+./gradlew clean && \
+./gradlew gatlingRun \
+--simulation=com.example.LoadSimulation
+
+
+Maven:
+
+mvn clean && mvn gatling:test
+
+
+17. BUILD + GATLING
+===================
+
+Gradle:
+
+./gradlew clean build gatlingRun
+
+Maven:
+
+mvn clean package gatling:test
+
+
+NOTE:
+
+For normal performance test execution, you often don't need the entire
+application build every time.
+
+Usually this is enough:
+
+./gradlew gatlingRun
+
+or:
+
+mvn gatling:test
+
+
+18. CI/CD STYLE COMMAND
+=======================
+
+A realistic CI/CD command can look like:
+
+./gradlew clean gatlingRun \
+--simulation=com.company.performance.ApiLoadSimulation \
+-Denvironment=qa \
+-Dusers=100 \
+-Dduration=300
+
+
+Conceptually:
+
+                 CI/CD
+                   |
+                   v
+            ./gradlew clean
+                   |
+                   v
+              gatlingRun
+                   |
+                   v
+            ApiLoadSimulation
+                   |
+             +-----+-----+
+             |           |
+             v           v
+          100 users    300 sec
+             |           |
+             +-----+-----+
+                   |
+                   v
+              HTML Report
+
+
+19. GIT BASH COMMANDS USEFUL WITH GATLING
+=========================================
+
+These are not Gatling commands, but are very useful when working with
+Gatling projects.
+
+
+Show current directory:
+
+pwd
+
+
+List files:
+
+ls
+
+
+Detailed file listing:
+
+ls -la
+
+
+Change directory:
+
+cd my-gatling-project
+
+
+Go one directory back:
+
+cd ..
+
+
+Go to home directory:
+
+cd ~
+
+
+Find Scala files:
+
+find src -name "*.scala"
+
+
+Find Java files:
+
+find src -name "*.java"
+
+
+Find Simulation classes:
+
+grep -R "extends Simulation" src
+
+
+Find files containing a specific word:
+
+grep -R "Simulation" src
+
+
+20. CHECK JAVA VERSION
+======================
+
+Check Java:
+
+java -version
+
+Check Java compiler:
+
+javac -version
+
+Check Java used by Maven:
+
+mvn -version
+
+Check Java used by Gradle:
+
+./gradlew -version
+
+
+21. MAVEN WRAPPER VS GLOBAL MAVEN
+=================================
+
+Global Maven:
+
+mvn gatling:test
+
+Uses Maven installed on the machine.
+
+Maven Wrapper:
+
+./mvnw gatling:test
+
+Uses the Maven version configured by the project.
+
+Recommended when the project contains mvnw:
+
+./mvnw gatling:test
+
+
+22. GRADLE WRAPPER VS GLOBAL GRADLE
+===================================
+
+Global Gradle:
+
+gradle gatlingRun
+
+Gradle Wrapper:
+
+./gradlew gatlingRun
+
+Recommended:
+
+./gradlew gatlingRun
+
+Reason:
+
+The Gradle Wrapper ensures the project uses the Gradle version defined
+by the project rather than whatever version happens to be installed
+globally.
+
+
+23. IMPORTANT GRADLE COMMANDS TO MEMORIZE
+=========================================
+
+Check version:
+
+./gradlew -version
+
+List tasks:
+
+./gradlew tasks
+
+List all tasks:
+
+./gradlew tasks --all
+
+Clean:
+
+./gradlew clean
+
+Run Gatling:
+
+./gradlew gatlingRun
+
+Run a specific simulation:
+
+./gradlew gatlingRun \
+--simulation=com.example.MySimulation
+
+Clean + Run:
+
+./gradlew clean gatlingRun
+
+Clean + Specific Simulation:
+
+./gradlew clean gatlingRun \
+--simulation=com.example.MySimulation
+
+Info:
+
+./gradlew gatlingRun --info
+
+Debug:
+
+./gradlew gatlingRun --debug
+
+Stack trace:
+
+./gradlew gatlingRun --stacktrace
+
+Refresh dependencies:
+
+./gradlew gatlingRun --refresh-dependencies
+
+Offline:
+
+./gradlew gatlingRun --offline
+
+
+24. IMPORTANT MAVEN COMMANDS TO MEMORIZE
+=======================================
+
+Check version:
+
+mvn -version
+
+Clean:
+
+mvn clean
+
+Compile:
+
+mvn compile
+
+Test compile:
+
+mvn test-compile
+
+Run Gatling:
+
+mvn gatling:test
+
+Run specific simulation:
+
+mvn gatling:test \
+-Dgatling.simulationClass=com.example.MySimulation
+
+Clean + Run:
+
+mvn clean gatling:test
+
+Clean + Specific Simulation:
+
+mvn clean gatling:test \
+-Dgatling.simulationClass=com.example.MySimulation
+
+Debug:
+
+mvn -X gatling:test
+
+Show errors:
+
+mvn -e gatling:test
+
+Update dependencies:
+
+mvn -U gatling:test
+
+Offline:
+
+mvn -o gatling:test
+
+
+25. REAL-WORLD COMMANDS TO USE
+==============================
+
+25.1 Development
+----------------
+
+Gradle:
+
+./gradlew gatlingRun \
+--simulation=com.gatling.simulation.tests.BasicSimulation
+
+Maven:
+
+mvn gatling:test \
+-Dgatling.simulationClass=com.gatling.simulation.tests.BasicSimulation
+
+
+25.2 Clean Execution
+--------------------
+
+Gradle:
+
+./gradlew clean gatlingRun \
+--simulation=com.gatling.simulation.tests.BasicSimulation
+
+Maven:
+
+mvn clean gatling:test \
+-Dgatling.simulationClass=com.gatling.simulation.tests.BasicSimulation
+
+
+25.3 Debugging
+--------------
+
+Gradle:
+
+./gradlew clean gatlingRun \
+--simulation=com.gatling.simulation.tests.BasicSimulation \
+--stacktrace \
+--info
+
+Maven:
+
+mvn clean gatling:test \
+-Dgatling.simulationClass=com.gatling.simulation.tests.BasicSimulation \
+-X
+
+
+25.4 CI/CD
+----------
+
+Gradle:
+
+./gradlew clean gatlingRun \
+--simulation=com.gatling.simulation.tests.LoadSimulation \
+-Denvironment=qa \
+-Dusers=100 \
+-Dduration=300
+
+Maven:
+
+mvn clean gatling:test \
+-Dgatling.simulationClass=com.gatling.simulation.tests.LoadSimulation \
+-Denvironment=qa \
+-Dusers=100 \
+-Dduration=300
+
+
+25.5 Save Logs
+--------------
+
+Gradle:
+
+./gradlew gatlingRun \
+--simulation=com.gatling.simulation.tests.LoadSimulation \
+2>&1 | tee gatling.log
+
+Maven:
+
+mvn gatling:test \
+-Dgatling.simulationClass=com.gatling.simulation.tests.LoadSimulation \
+2>&1 | tee gatling.log
+
+
+26. QUICK COMMAND REFERENCE
+===========================
+
+GRADLE:
+
+# Check Gradle
+./gradlew -version
+
+# Show tasks
+./gradlew tasks
+
+# Show all tasks
+./gradlew tasks --all
+
+# Clean
+./gradlew clean
+
+# Run Gatling
+./gradlew gatlingRun
+
+# Run a specific simulation
+./gradlew gatlingRun --simulation=com.example.MySimulation
+
+# Clean and run
+./gradlew clean gatlingRun --simulation=com.example.MySimulation
+
+# Run with info logs
+./gradlew gatlingRun --info
+
+# Run with debug logs
+./gradlew gatlingRun --debug
+
+# Run with stack trace
+./gradlew gatlingRun --stacktrace
+
+# Refresh dependencies
+./gradlew gatlingRun --refresh-dependencies
+
+# Run offline
+./gradlew gatlingRun --offline
+
+# Pass system properties
+./gradlew gatlingRun -Dusers=100 -Dduration=300
+
+# Save logs
+./gradlew gatlingRun 2>&1 | tee gatling.log
+
+
+MAVEN:
+
+# Check Maven
+mvn -version
+
+# Clean
+mvn clean
+
+# Compile
+mvn compile
+
+# Test compile
+mvn test-compile
+
+# Run Gatling
+mvn gatling:test
+
+# Run a specific simulation
+mvn gatling:test -Dgatling.simulationClass=com.example.MySimulation
+
+# Clean and run
+mvn clean gatling:test -Dgatling.simulationClass=com.example.MySimulation
+
+# Debug
+mvn -X gatling:test
+
+# Show errors
+mvn -e gatling:test
+
+# Update dependencies
+mvn -U gatling:test
+
+# Offline
+mvn -o gatling:test
+
+# Save logs
+mvn gatling:test 2>&1 | tee gatling.log
+
+
+27. MOST IMPORTANT COMMANDS TO MEMORIZE
+=======================================
+
+If you work with Gatling regularly, memorize these commands first.
+
+
+GRADLE:
+
+1. Run Gatling:
+
+./gradlew gatlingRun
+
+
+2. Run one simulation:
+
+./gradlew gatlingRun \
+--simulation=com.example.MySimulation
+
+
+3. Clean + Run:
+
+./gradlew clean gatlingRun \
+--simulation=com.example.MySimulation
+
+
+4. Debug:
+
+./gradlew gatlingRun \
+--simulation=com.example.MySimulation \
+--stacktrace \
+--info
+
+
+5. Refresh dependencies:
+
+./gradlew gatlingRun --refresh-dependencies
+
+
+MAVEN:
+
+1. Run Gatling:
+
+mvn gatling:test
+
+
+2. Run one simulation:
+
+mvn gatling:test \
+-Dgatling.simulationClass=com.example.MySimulation
+
+
+3. Clean + Run:
+
+mvn clean gatling:test \
+-Dgatling.simulationClass=com.example.MySimulation
+
+
+4. Debug:
+
+mvn -X gatling:test
+
+
+5. Update dependencies:
+
+mvn -U gatling:test
+
+
+28. FINAL MENTAL MODEL
+======================
+
+Remember this:
+
+GRADLE:
+
+./gradlew
+    |
+    +-- gatlingRun
+            |
+            +-- --simulation=...
+                    |
+                    +-- Simulation Class
+                            |
+                            +-- Scenario
+                                    |
+                                    +-- exec()
+                                    |
+                                    +-- HTTP Requests
+                                    |
+                                    +-- Checks
+                                    |
+                                    +-- Injection Profile
+                                    |
+                                    +-- Results
+
+
+MAVEN:
+
+mvn
+ |
+ +-- gatling:test
+        |
+        +-- -Dgatling.simulationClass=...
+                |
+                +-- Simulation Class
+                        |
+                        +-- Scenario
+                                |
+                                +-- exec()
+                                |
+                                +-- HTTP Requests
+                                |
+                                +-- Checks
+                                |
+                                +-- Injection Profile
+                                |
+                                +-- Results
+
+
+The most important difference to remember is:
+
+MAVEN:
+
+mvn gatling:test \
+-Dgatling.simulationClass=com.example.MySimulation
+
+
+GRADLE:
+
+./gradlew gatlingRun \
+--simulation=com.example.MySimulation
+
+
+And the most common clean execution commands are:
+
+MAVEN:
+
+mvn clean gatling:test \
+-Dgatling.simulationClass=com.example.MySimulation
+
+
+GRADLE:
+
+./gradlew clean gatlingRun \
+--simulation=com.example.MySimulation
+
+
+END OF GATLING MAVEN & GRADLE COMMAND CHEAT SHEET
