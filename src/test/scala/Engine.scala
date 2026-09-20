@@ -32,7 +32,8 @@ object Engine extends App {
 //      "com.gatling.simulation.tests.CustomJsonFeederJsonPlaceholderSimulation"
 //      "com.gatling.simulation.tests.GatlingRampLoadSimulation"
 //      "com.gatling.simulation.tests.FixedLoadDurationSimulation"
-      "com.gatling.simulation.tests.RuntimeParameterSimulation"
+//      "com.gatling.simulation.tests.RuntimeParameterSimulation"
+      "com.gatling.simulation.basic.DatabaseFeederSimulation"
 
     )
 

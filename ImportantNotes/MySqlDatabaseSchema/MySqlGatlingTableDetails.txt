@@ -1,0 +1,1001 @@
+GATLING + MYSQL DATABASE PRACTICE QUERIES
+=============================================
+
+Project:
+Gatling + Scala + Gradle + MySQL Database Feeder
+
+Database:
+ticketbookingapi
+
+Table:
+userDataFeeder
+
+
+============================================================
+1. CREATE DATABASE / SCHEMA
+============================================================
+
+-- Create the database/schema if it does not already exist.
+
+CREATE SCHEMA IF NOT EXISTS gatlingdatabasefeeder;
+
+
+-- Select the database.
+
+USE gatlingdatabasefeeder;
+
+
+============================================================
+2. CREATE TABLE
+============================================================
+
+-- Create the table used by the Gatling MySQL feeder project.
+--
+-- user_id:
+--   BIGINT + AUTO_INCREMENT means MySQL generates the ID.
+--
+-- user_name:
+--   Required and must be unique.
+--
+-- email:
+--   User email address.
+--
+-- first_name / last_name:
+--   User name fields.
+--
+-- mobile:
+--   10-digit mobile number.
+--
+-- password:
+--   Practice password field.
+
+CREATE TABLE IF NOT EXISTS userDataFeeder (
+    user_id BIGINT NOT NULL AUTO_INCREMENT,
+    user_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    mobile VARCHAR(10) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    PRIMARY KEY (user_id),
+    UNIQUE KEY uk_user_name (user_name)
+);
+
+
+============================================================
+3. CHECK TABLE STRUCTURE
+============================================================
+
+-- Display the structure of the table.
+
+DESCRIBE userDataFeeder;
+
+
+-- Alternative command.
+
+SHOW COLUMNS FROM userDataFeeder;
+
+
+-- Show the complete CREATE TABLE statement.
+
+SHOW CREATE TABLE userDataFeeder;
+
+
+============================================================
+4. INSERT ONE RECORD
+============================================================
+
+-- Insert one user.
+--
+-- user_id is intentionally NOT specified because
+-- MySQL AUTO_INCREMENT generates it.
+
+INSERT INTO userDataFeeder
+(
+    user_name,
+    email,
+    first_name,
+    last_name,
+    mobile,
+    password
+)
+VALUES
+(
+    'U1Jhon@4',
+    'jhon1@example.com',
+    'Jhon',
+    'Doe',
+    '9876543210',
+    'Password@123'
+);
+
+
+============================================================
+5. INSERT MULTIPLE RECORDS
+============================================================
+
+-- Insert multiple users in one SQL statement.
+
+INSERT INTO userDataFeeder
+(
+    user_name,
+    email,
+    first_name,
+    last_name,
+    mobile,
+    password
+)
+VALUES
+(
+    'U2Mike@5',
+    'mike2@example.com',
+    'Mike',
+    'Smith',
+    '9876543211',
+    'Password@123'
+),
+(
+    'U3Alex@6',
+    'alex3@example.com',
+    'Alex',
+    'Johnson',
+    '9876543212',
+    'Password@123'
+),
+(
+    'U4Emma@7',
+    'emma4@example.com',
+    'Emma',
+    'Williams',
+    '9876543213',
+    'Password@123'
+),
+(
+    'U5David@8',
+    'david5@example.com',
+    'David',
+    'Brown',
+    '9876543214',
+    'Password@123'
+);
+
+
+============================================================
+6. INSERT ALL PRACTICE CSV RECORDS MANUALLY
+============================================================
+
+-- These records correspond to the sample users.csv
+-- supplied with the Gatling project.
+
+INSERT INTO userDataFeeder
+(
+    user_name,
+    email,
+    first_name,
+    last_name,
+    mobile,
+    password
+)
+VALUES
+(
+    'U1Jhon@4',
+    'jhon1@example.com',
+    'Jhon',
+    'Doe',
+    '9876543210',
+    'Password@123'
+),
+(
+    'U2Mike@5',
+    'mike2@example.com',
+    'Mike',
+    'Smith',
+    '9876543211',
+    'Password@123'
+),
+(
+    'U3Alex@6',
+    'alex3@example.com',
+    'Alex',
+    'Johnson',
+    '9876543212',
+    'Password@123'
+),
+(
+    'U4Emma@7',
+    'emma4@example.com',
+    'Emma',
+    'Williams',
+    '9876543213',
+    'Password@123'
+),
+(
+    'U5David@8',
+    'david5@example.com',
+    'David',
+    'Brown',
+    '9876543214',
+    'Password@123'
+),
+(
+    'U6Sophia@9',
+    'sophia6@example.com',
+    'Sophia',
+    'Davis',
+    '9876543215',
+    'Password@123'
+),
+(
+    'U7Daniel@10',
+    'daniel7@example.com',
+    'Daniel',
+    'Miller',
+    '9876543216',
+    'Password@123'
+),
+(
+    'U8Olivia@11',
+    'olivia8@example.com',
+    'Olivia',
+    'Wilson',
+    '9876543217',
+    'Password@123'
+),
+(
+    'U9James@12',
+    'james9@example.com',
+    'James',
+    'Moore',
+    '9876543218',
+    'Password@123'
+),
+(
+    'U10Ava@13',
+    'ava10@example.com',
+    'Ava',
+    'Taylor',
+    '9876543219',
+    'Password@123'
+);
+
+
+============================================================
+7. VIEW ALL RECORDS
+============================================================
+
+-- Fetch all records.
+
+SELECT *
+FROM userDataFeeder;
+
+
+-- Fetch records in user_id order.
+
+SELECT *
+FROM userDataFeeder
+ORDER BY user_id;
+
+
+============================================================
+8. FETCH SPECIFIC COLUMNS
+============================================================
+
+SELECT
+    user_id,
+    user_name,
+    email,
+    first_name,
+    last_name,
+    mobile
+FROM userDataFeeder;
+
+
+============================================================
+9. FETCH ONE RECORD BY USER ID
+============================================================
+
+SELECT *
+FROM userDataFeeder
+WHERE user_id = 1;
+
+
+============================================================
+10. FETCH ONE RECORD BY USERNAME
+============================================================
+
+SELECT *
+FROM userDataFeeder
+WHERE user_name = 'U1Jhon@4';
+
+
+============================================================
+11. COUNT RECORDS
+============================================================
+
+-- This is the type of check used by the helper utility
+-- to determine whether the table contains data.
+
+SELECT COUNT(*) AS total_users
+FROM userDataFeeder;
+
+
+============================================================
+12. CHECK WHETHER TABLE IS EMPTY
+============================================================
+
+SELECT
+    CASE
+        WHEN COUNT(*) = 0 THEN 'TABLE IS EMPTY'
+        ELSE 'TABLE CONTAINS DATA'
+    END AS table_status
+FROM userDataFeeder;
+
+
+-- Another simple approach:
+
+SELECT COUNT(*) AS total_users
+FROM userDataFeeder;
+
+-- If total_users = 0:
+--   Table is empty.
+--
+-- If total_users > 0:
+--   Table contains records.
+
+
+============================================================
+13. UPDATE ONE COLUMN
+============================================================
+
+-- Update only the email of a user.
+
+UPDATE userDataFeeder
+SET email = 'newjhon@example.com'
+WHERE user_name = 'U1Jhon@4';
+
+
+============================================================
+14. UPDATE MULTIPLE COLUMNS
+============================================================
+
+UPDATE userDataFeeder
+SET
+    email = 'updatedjhon@example.com',
+    first_name = 'John',
+    last_name = 'Doe',
+    mobile = '9999999999'
+WHERE user_name = 'U1Jhon@4';
+
+
+============================================================
+15. UPDATE USING USER ID
+============================================================
+
+UPDATE userDataFeeder
+SET
+    first_name = 'UpdatedName'
+WHERE user_id = 1;
+
+
+============================================================
+16. UPDATE USERNAME
+============================================================
+
+-- user_name is UNIQUE, so the new username must not
+-- already exist in another record.
+
+UPDATE userDataFeeder
+SET user_name = 'U1JohnUpdated@4'
+WHERE user_id = 1;
+
+
+============================================================
+17. UPDATE PASSWORD
+============================================================
+
+-- Practice-only example.
+
+UPDATE userDataFeeder
+SET password = 'NewPassword@123'
+WHERE user_name = 'U1Jhon@4';
+
+
+============================================================
+18. UPDATE MULTIPLE RECORDS
+============================================================
+
+-- Example: update all users whose last name is Smith.
+
+UPDATE userDataFeeder
+SET mobile = '8888888888'
+WHERE last_name = 'Smith';
+
+
+IMPORTANT:
+Always use a WHERE clause when you intend to update
+specific records.
+
+Without WHERE:
+
+UPDATE userDataFeeder
+SET first_name = 'Test';
+
+This would update EVERY record in the table.
+
+
+============================================================
+19. DELETE ONE RECORD BY USER ID
+============================================================
+
+DELETE FROM userDataFeeder
+WHERE user_id = 1;
+
+
+============================================================
+20. DELETE ONE RECORD BY USERNAME
+============================================================
+
+DELETE FROM userDataFeeder
+WHERE user_name = 'U1Jhon@4';
+
+
+============================================================
+21. DELETE MULTIPLE RECORDS
+============================================================
+
+-- Example: delete users whose first name is Alex.
+
+DELETE FROM userDataFeeder
+WHERE first_name = 'Alex';
+
+
+============================================================
+22. DELETE ALL RECORDS
+============================================================
+
+-- Deletes all rows but keeps the table.
+
+DELETE FROM userDataFeeder;
+
+
+-- Verify:
+
+SELECT COUNT(*) AS total_users
+FROM userDataFeeder;
+
+
+IMPORTANT:
+DELETE FROM table_name;
+removes all rows but keeps the table structure.
+
+
+============================================================
+23. TRUNCATE TABLE
+============================================================
+
+-- Remove all records quickly.
+
+TRUNCATE TABLE userDataFeeder;
+
+
+IMPORTANT:
+TRUNCATE removes all records and resets the AUTO_INCREMENT
+counter in MySQL.
+
+This is useful for resetting the database before repeating
+the Gatling CSV-to-DB loading exercise.
+
+
+============================================================
+24. DROP TABLE
+============================================================
+
+-- Completely remove the table.
+
+DROP TABLE userDataFeeder;
+
+
+-- Safer version:
+
+DROP TABLE IF EXISTS userDataFeeder;
+
+
+IMPORTANT:
+DROP TABLE removes:
+    1. The table
+    2. All records
+    3. The table structure
+
+
+============================================================
+25. RECREATE TABLE AFTER DROP
+============================================================
+
+USE ticketbookingapi;
+
+CREATE TABLE IF NOT EXISTS gatlingdatabasefeeder (
+    user_id BIGINT NOT NULL AUTO_INCREMENT,
+    user_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    mobile VARCHAR(10) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    PRIMARY KEY (user_id),
+    UNIQUE KEY uk_user_name (user_name)
+);
+
+
+============================================================
+26. RESET TABLE FOR GATLING PRACTICE
+============================================================
+
+-- Recommended when you want to test the helper utility's
+-- "table is empty -> load CSV" behavior.
+
+USE gatlingdatabasefeeder;
+
+TRUNCATE TABLE userDataFeeder;
+
+SELECT COUNT(*) AS total_users
+FROM userDataFeeder;
+
+
+Expected result:
+
+total_users
+-----------
+0
+
+
+Now run the Gatling simulation:
+
+gradlew perfTest
+
+The helper utility should:
+
+1. Connect to MySQL.
+2. Check the table.
+3. Find zero records.
+4. Read users.csv.
+5. Insert CSV records.
+6. Fetch records from MySQL.
+7. Feed them to Gatling.
+
+
+============================================================
+27. TEST THAT CSV LOADING DOES NOT HAPPEN AGAIN
+============================================================
+
+-- After running Gatling once:
+
+SELECT COUNT(*) AS total_users
+FROM userDataFeeder;
+
+
+Expected result for the sample CSV:
+
+10
+
+
+Run:
+
+gradlew perfTest
+
+
+The helper should detect that records already exist and
+skip CSV insertion.
+
+Expected behavior:
+
+Table already contains 10 record(s).
+CSV insert skipped.
+
+
+============================================================
+28. FIND DUPLICATE USERNAME
+============================================================
+
+SELECT
+    user_name,
+    COUNT(*) AS occurrence_count
+FROM userDataFeeder
+GROUP BY user_name
+HAVING COUNT(*) > 1;
+
+
+NOTE:
+The table has a UNIQUE constraint on user_name, so duplicate
+usernames should normally be rejected by MySQL.
+
+
+============================================================
+29. FIND USERS BY EMAIL
+============================================================
+
+SELECT *
+FROM userDataFeeder
+WHERE email = 'jhon1@example.com';
+
+
+============================================================
+30. SEARCH USERS USING LIKE
+============================================================
+
+-- Find usernames beginning with U1.
+
+SELECT *
+FROM userDataFeeder
+WHERE user_name LIKE 'U1%';
+
+
+-- Find emails containing "example".
+
+SELECT *
+FROM userDataFeeder
+WHERE email LIKE '%example%';
+
+
+============================================================
+31. SORT RECORDS
+============================================================
+
+-- Ascending user ID.
+
+SELECT *
+FROM userDataFeeder
+ORDER BY user_id ASC;
+
+
+-- Descending user ID.
+
+SELECT *
+FROM userDataFeeder
+ORDER BY user_id DESC;
+
+
+-- Sort by first name.
+
+SELECT *
+FROM userDataFeeder
+ORDER BY first_name ASC;
+
+
+============================================================
+32. LIMIT RECORDS
+============================================================
+
+-- Fetch first 5 records.
+
+SELECT *
+FROM userDataFeeder
+ORDER BY user_id
+LIMIT 5;
+
+
+-- Fetch first 10 records.
+
+SELECT *
+FROM userDataFeeder
+ORDER BY user_id
+LIMIT 10;
+
+
+============================================================
+33. VERIFY THE DATA USED BY GATLING
+============================================================
+
+SELECT
+    user_id,
+    user_name,
+    email,
+    first_name,
+    last_name,
+    mobile,
+    password
+FROM userDataFeeder
+ORDER BY user_id;
+
+
+These columns are converted into Gatling feeder fields:
+
+user_id
+user_name
+email
+first_name
+last_name
+mobile
+password
+
+
+Inside Gatling they can be accessed using:
+
+${user_id}
+${user_name}
+${email}
+${first_name}
+${last_name}
+${mobile}
+${password}
+
+
+============================================================
+34. COMPLETE DATABASE RESET
+============================================================
+
+-- Use this when you want to completely recreate the
+-- practice environment.
+
+DROP TABLE IF EXISTS userDataFeeder;
+
+CREATE TABLE userDataFeeder (
+    user_id BIGINT NOT NULL AUTO_INCREMENT,
+    user_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    mobile VARCHAR(10) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    PRIMARY KEY (user_id),
+    UNIQUE KEY uk_user_name (user_name)
+);
+
+
+============================================================
+35. RECOMMENDED PRACTICE SEQUENCE
+============================================================
+
+Step 1:
+--------
+
+USE gatlingdatabasefeeder;
+
+
+Step 2:
+--------
+
+CREATE TABLE IF NOT EXISTS userDataFeeder (
+    user_id BIGINT NOT NULL AUTO_INCREMENT,
+    user_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    mobile VARCHAR(10) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    PRIMARY KEY (user_id),
+    UNIQUE KEY uk_user_name (user_name)
+);
+
+
+Step 3:
+--------
+
+Check the table:
+
+SELECT COUNT(*) FROM userDataFeeder;
+
+
+Step 4:
+--------
+
+If it is empty, run:
+
+gradlew perfTest
+
+
+The Gatling helper automatically loads:
+
+src/test/resources/data/users.csv
+
+
+Step 5:
+--------
+
+Verify:
+
+SELECT *
+FROM userDataFeeder;
+
+
+Step 6:
+--------
+
+Update a record:
+
+UPDATE userDataFeeder
+SET first_name = 'UpdatedJohn'
+WHERE user_id = 1;
+
+
+Step 7:
+--------
+
+Verify the update:
+
+SELECT *
+FROM userDataFeeder
+WHERE user_id = 1;
+
+
+Step 8:
+--------
+
+Delete the record:
+
+DELETE FROM userDataFeeder
+WHERE user_id = 1;
+
+
+Step 9:
+--------
+
+Verify deletion:
+
+SELECT *
+FROM userDataFeeder
+WHERE user_id = 1;
+
+
+Step 10:
+---------
+
+Reset everything for another Gatling run:
+
+TRUNCATE TABLE userDataFeeder;
+
+Then:
+
+gradlew perfTest
+
+
+============================================================
+36. IMPORTANT DIFFERENCE: DELETE vs TRUNCATE vs DROP
+============================================================
+
+DELETE
+------
+
+DELETE FROM userDataFeeder;
+
+Purpose:
+    Removes rows.
+
+Table:
+    Remains.
+
+AUTO_INCREMENT:
+    Normally continues from its current counter.
+
+Can use WHERE:
+    Yes.
+
+
+TRUNCATE
+--------
+
+TRUNCATE TABLE userDataFeeder;
+
+Purpose:
+    Removes all rows quickly.
+
+Table:
+    Remains.
+
+AUTO_INCREMENT:
+    Resets in MySQL.
+
+Can use WHERE:
+    No.
+
+
+DROP
+----
+
+DROP TABLE userDataFeeder;
+
+Purpose:
+    Removes the entire table.
+
+Table:
+    Removed.
+
+Data:
+    Removed.
+
+Structure:
+    Removed.
+
+Can use WHERE:
+    No.
+
+
+============================================================
+37. IMPORTANT NOTE FOR THIS GATLING PROJECT
+============================================================
+
+The project uses:
+
+user_id BIGINT AUTO_INCREMENT
+
+The sample users.csv does NOT contain user_id.
+
+This is intentional.
+
+When CSV records are inserted:
+
+CSV
+ |
+ +-- user_name
+ +-- email
+ +-- first_name
+ +-- last_name
+ +-- mobile
+ +-- password
+ |
+ v
+MySQL INSERT
+ |
+ v
+MySQL generates user_id automatically.
+
+
+For the sample data, the first inserted record gets:
+
+user_id = 1
+
+The second:
+
+user_id = 2
+
+and so on.
+
+
+============================================================
+38. JSONPLACEHOLDER CONNECTION
+============================================================
+
+The Gatling simulation uses:
+
+https://jsonplaceholder.typicode.com
+
+The example request is:
+
+GET /posts/${user_id}
+
+
+For example:
+
+user_id = 1
+    |
+    v
+GET /posts/1
+
+
+user_id = 2
+    |
+    v
+GET /posts/2
+
+
+JSONPlaceholder provides post IDs 1-100, so the sample
+database starts with IDs that work with this endpoint.
+
+
+============================================================
+39. SECURITY NOTE
+============================================================
+
+The password column in this practice table contains
+plain-text practice values.
+
+DO NOT use this approach for a real production application.
+
+Real applications should:
+    - Hash passwords.
+    - Never store plain-text passwords.
+    - Never expose passwords in Gatling logs.
+    - Never commit database credentials to Git.
+    - Use environment variables or a secret manager.
+
+
+END OF FILE

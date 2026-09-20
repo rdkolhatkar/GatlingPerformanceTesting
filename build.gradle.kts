@@ -32,10 +32,15 @@ dependencies {
     // Gatling Recorder
     gatlingImplementation("io.gatling:gatling-recorder:$gatlingVersion")
 
+    // MySQL JDBC
+    implementation("com.mysql:mysql-connector-j:8.4.0")
+    gatlingImplementation("com.mysql:mysql-connector-j:8.4.0")
+
     // Required so Engine.scala can access Gatling classes
     testImplementation("io.gatling:gatling-app:$gatlingVersion")
     testImplementation("io.gatling.highcharts:gatling-charts-highcharts:$gatlingVersion")
     testImplementation("org.scala-lang:scala-library:$scalaVersion")
+    testImplementation("com.mysql:mysql-connector-j:8.4.0")
 }
 
 sourceSets {
